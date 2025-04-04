@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.collections.FXCollections?>
 <?import com.robin.demojavafx.Line?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="CENTER" fx:controller="com.robin.demojavafx.HelloController">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.robin.demojavafx.HelloController" spacing="10" alignment="CENTER">
+    <!-- Inclure le header -->
+    <fx:include fx:id="header" source="header.fxml" />
+
     <!-- Titre -->
     <Label styleClass="titre-label">
         Tableau des Dépenses

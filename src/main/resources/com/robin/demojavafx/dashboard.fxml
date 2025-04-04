@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.robin.demojavafx.DashboardController" spacing="10">
+    <!-- Inclure le header -->
+    <fx:include fx:id="header" source="header.fxml" />
+
+    <!-- Titre du Tableau de Bord -->
+    <VBox spacing="10" alignment="CENTER">
+        <Label styleClass="titre-label">Tableau de Bord (Graphiques)</Label>
+    </VBox>
+</HBox>

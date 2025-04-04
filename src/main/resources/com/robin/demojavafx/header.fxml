@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.robin.demojavafx.HeaderController" spacing="10">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <Button text="Tableau des Dépenses" onAction="#switchToTableView"/>
+    <Button text="Graphiques" onAction="#switchToGraphs"/>
+</HBox>
+
