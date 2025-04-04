@@ -1,0 +1,115 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+group 'com.robin'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.2'
+}
+
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+application {
+    mainModule = 'com.robin.demojavafx'
+    mainClass = 'com.robin.demojavafx.HelloApplication'
+    applicationName = 'DepenseManager'
+}
+
+javafx {
+    version = '22.0.1'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing']
+}
+
+dependencies {
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation('org.controlsfx:controlsfx:11.2.1')
+    implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('net.synedra:validatorfx:0.5.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
+    implementation('org.xerial:sqlite-jdbc:3.44.1.0')
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jlink {
+    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    launcher {
+        name = 'DepenseManager'
+        jvmArgs = []
+    }
+
+    jpackage {
+        // Les options doivent être définies ainsi pour jpackage
+        imageOptions = []
+        installerOptions = []
+
+        // Configuration de l'icône
+        if (org.gradle.internal.os.OperatingSystem.current().windows) {
+            imageOptions += ['--icon', 'src/main/resources/com/robin/demojavafx/images/logo.ico']
+            installerOptions += [
+                    '--win-dir-chooser',
+                    '--win-menu',
+                    '--win-menu-group', 'DepenseManager',
+                    '--win-shortcut',
+                    '--win-per-user-install'
+            ]
+        }
+
+        if (org.gradle.internal.os.OperatingSystem.current().macOsX) {
+            imageOptions += ['--icon', 'src/main/resources/com/robin/demojavafx/images/logo.icns']
+            installerOptions += [
+                    '--mac-package-name', 'DepenseManager'
+            ]
+        }
+
+        if (org.gradle.internal.os.OperatingSystem.current().linux) {
+            imageOptions += ['--icon', 'src/main/resources/com/robin/demojavafx/images/logo.png']
+            installerOptions += [
+                    '--linux-package-name', 'DepenseManager',
+                    '--linux-shortcut'
+            ]
+        }
+
+        // Définir la version de l'application
+        installerOptions += ['--app-version', '1.0.0']
+
+        // Le nom du vendeur
+        installerOptions += ['--vendor', 'Robin']
+    }
+}
+
+jlinkZip {
+    group = 'distribution'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
